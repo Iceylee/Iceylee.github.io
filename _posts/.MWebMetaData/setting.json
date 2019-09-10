@@ -1,6 +1,7 @@
 {
   "name" : "_posts",
   "fileExtension" : ".md",
+  "autoUploadInsertedImageKey" : "iceylee-https:\/\/upload-z2.qiniup.com",
   "autoUploadInsertedImage" : true,
   "folderType" : 10,
   "mediaFloder" : "media",
