@@ -9,7 +9,7 @@ tags:								#标签
     - 流程
 ---
 
-## 用法
+# 用法
 ### 常用命令
 `snakemake -np` 查看全部流程
 `snakemake --snakemakefile myfile.py`  指定snakefile
@@ -119,7 +119,7 @@ expand : 相当于列表推导式
 
 
 
-## 使用笔记
+# 使用笔记
 ### wildcards {sample}
 第一条rule里input，{sample}还没有得到，因此要定义一个匿名函数，wildcards来推迟。等sample被匹配到之后，再来确定input。
 
@@ -227,7 +227,7 @@ rule kallisto_quant:
               ' ' + fastqs)
 ```
 
-## 参考
+# 参考
 1. [生信分析流程构建的几大流派](https://life2cloud.com/cn/2018/11/pipelines-styles/)
 2. [snakemake框架](https://github.com/inodb/snakemake-workflows)
 3. [snakemake pyflow-ATACseq流程](https://github.com/crazyhottommy/pyflow-ATACseq)
