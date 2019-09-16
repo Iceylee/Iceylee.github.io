@@ -1,3 +1,14 @@
+---
+layout:     post 
+title:      bash shell快捷键 		
+date:       2019-09-16	
+author:     琼脂糖					
+header-img: img/post-bg-2015.jpg 
+catalog: true 				
+tags:				
+    - bash
+    - 快捷键
+---
 ## 移动光标
 * `ctrl+b`: 前移一个字符(backward)
 * `ctrl+f`: 后移一个字符(forward)

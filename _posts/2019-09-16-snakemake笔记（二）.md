@@ -1,3 +1,13 @@
+---
+layout:     post 
+title:     snakemake笔记（二）		
+date:       2019-09-16	
+author:     琼脂糖					
+header-img: img/post-bg-2015.jpg 
+catalog: true 				
+tags:				
+    - snakemake
+---
 ## 常问问题
 **snakemake 原理**
 ![](http://pxlp1m31j.bkt.clouddn.com/mweb/15685961780014.jpg)
