@@ -22,7 +22,7 @@ tags:								#标签
 `--cores, --jobs, -j`  指定运行的核数，若不指定，则使用最大的核数
 `--force, -f` 重新运行第一条rule或指定的rule
 `--forceall, -F` 重新运行所有的rule，不管是否已经有输出结果
-`--forcerun, -R` 重新执行Snakefile，执行列出的rule，当更新了rule时候使用此命令
+`--forcerun, -R` 执行指定的rule及下游所有任务
 
 ### 可视化
 `$ snakemake --dag | dot -Tpdf > dag.pdf`
