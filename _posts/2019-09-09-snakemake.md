@@ -26,7 +26,7 @@ tags:								#标签
 
 ### 可视化
 `$ snakemake --dag | dot -Tpdf > dag.pdf`
-
+需在python3下。
 ### 集群投递
 `snakemake --cluster "qsub -V -cwd -q 节点队列" -j 10
  --cluster` 集群运行指令
@@ -236,6 +236,7 @@ rule kallisto_quant:
 6. [yaml语言教程](http://www.ruanyifeng.com/blog/2016/07/yaml.html)
 7. [snakemake 官方文档](https://snakemake.readthedocs.io/en/stable/snakefiles/rules.html)
 8. [https://github.com/inodb/snakemake-parallel-bwa/blob/master/Snakefile](https://github.com/inodb/snakemake-parallel-bwa/blob/master/Snakefile)
+9. https://gitlab.com/tangming2005/snakemake_DNAseq_pipeline/tree/mutect
 
 ## 目录
 [TOC]

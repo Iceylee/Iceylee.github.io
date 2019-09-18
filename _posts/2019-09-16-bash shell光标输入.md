@@ -9,6 +9,8 @@ tags:
     - bash
     - 快捷键
 ---
+> bash,zsh,vim,mweb,sublime里可以提升工作效率的快捷键和命令。
+
 ## 移动光标
 * `ctrl+b`: 前移一个字符(backward)
 * `ctrl+f`: 后移一个字符(forward)
@@ -43,27 +45,32 @@ tags:
 * `de`: 从当前光标开始删除到单词尾
 
 ## sublime
-1. 文本选择
-ctrl cmd + 方向键 移动文本
-cmd 选择多行 编辑
-2. 智能选中
+**文本选择**
+`ctrl cmd + 方向键` 移动文本
+`cmd 选择多行` 编辑
+
+**智能选中**
 双击选中，三击选中整行，四击智能选中
-1. 按住cmd
+
+按住`cmd`
 点击文件，文件夹，url可打开
 可以拖拽选中的字符串
-同时按住opt，可以矩形选中
-1. tab面板管理
+同时按住`opt`，可以矩形选中
+
+**tab面板管理**
 cmd+enter 最大化tab
-1. 标记跳转
-cmd+shift+m 设置标记
-cmd+shift+j 跳转到上一个标记
-cmd+shift+arrow 多个标记切换
-1. 回放
-cmd+opt+b 进入回放
-方向键控制时间
-退出回放：esc
-1. 其他
-自动填充：cmd+；
-打开粘贴历史：cmd+shift+h
-打开最近目录：cmd+alt+/
+
+**标记跳转**
+`cmd+shift+m `设置标记
+`cmd+shift+j` 跳转到上一个标记
+`cmd+shift+arrow` 多个标记切换
+
+**回放**
+`cmd+opt+b` 进入回放
+方向键控制时间，退出回放：esc
+
+**其他**
+`cmd+；` 自动填充
+`cmd+shift+h` 打开粘贴历史
+`cmd+alt+/` 打开最近目录
 
