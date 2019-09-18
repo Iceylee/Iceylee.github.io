@@ -29,6 +29,7 @@ snakemake -n -R `snakemake --list-code-changes`
 ```
         
 **删除snamake 输出的文件** 。
+
 仅删除rule在output中写的文件。最好先和`--dry-run `跑确认一下。同样的还有`--delete-temp-output`
 
 ```
@@ -46,6 +47,7 @@ Would delete /02snakeReq/00.prepare/ref/salmonella.fa
 ```
 
 **workflow太大了，不看output，只看最终结果**
+
 `snakemake -n --quiet`
 
 打开zsh关于snakemake的自动完成：将以下代码放在~/.zshrc中
@@ -86,6 +88,7 @@ qsub提交脚本
 `snakemake -j 2 --cluster-config cluster.json --cluster './bsub_cluster.py {dependencies}'`
 
 **dependencies**
+
 如果在这里`'./bsub_cluster.py -p 2'`，脚本增加如下
 
 bsub ... `-w 'done(-p) && done(2)'` .sh
@@ -93,11 +96,13 @@ bsub ... `-w 'done(-p) && done(2)'` .sh
 http://www.glue.umd.edu/lsf-docs/man/bsub.html
 
 **bsub的w参数**
+
 specifies the dependency condition of a batch job. Only when depend_cond is satisfied (TRUE), will the job be considered for dispatch.
 
 似乎是设置job之间的联系。仅用于bsub。
 
-snakemake根据snakefile的rule和sample拆分job，每一个job生成一个jobscript,放在临时目录中。比如`01snaketest/.snakemake/tmp.o81t2076/snakejob.fastqc_clean.1.sh`。
+snakemake根据snakefile的rule和sample拆分job，每一个job生成一个jobscript,放在临时目录中。比如
+`01snaketest/.snakemake/tmp.o81t2076/snakejob.fastqc_clean.1.sh`。
 
 每一个jobscript通过qsub提交，生成qsub命令时候，读取cluster引号内容，jobscirpt作为最后一个参数。
 
