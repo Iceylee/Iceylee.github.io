@@ -8,7 +8,7 @@ catalog: true
 tags:				
     - snakemake
 ---
-## 功能
+## 官方文档
 **snakemake 原理**
 ![](http://pxlp1m31j.bkt.clouddn.com/mweb/15685961780014.jpg)
 
@@ -48,8 +48,7 @@ Would delete /02snakeReq/00.prepare/ref/salmonella.fa
 **workflow太大了，不看output，只看最终结果**
 `snakemake -n --quiet`
 
-打开zsh关于snakemake的自动完成
-将以下代码放在~/.zshrc中
+打开zsh关于snakemake的自动完成：将以下代码放在~/.zshrc中
 `compdef _gnu_generic snakemake`
 
 **部分运行**
@@ -77,25 +76,37 @@ snakemake --detailed-summary | sort -k1,1 > snakemake_run_summary.txt
 
 ## cluster wrapper
 当用--cluster参数时，snakemake处理顺序
+
 直接提交 
+
 `snakemake --snakefile res-snake.py --cluster "qsub -l p=2 -q res -o o.logs -e e.logs -cwd" --jobs 8`
+
 qsub提交脚本 
+
 `snakemake -j 2 --cluster-config cluster.json --cluster './bsub_cluster.py {dependencies}'`
 
-考虑 dependencies，似乎是自己的设置填空。如果在这里`'./bsub_cluster.py -p 2'`，脚本增加了
+**dependencies**
+如果在这里`'./bsub_cluster.py -p 2'`，脚本增加如下
+
 bsub ... `-w 'done(-p) && done(2)'` .sh
+
 http://www.glue.umd.edu/lsf-docs/man/bsub.html
 
-看了bsub的w参数
+**bsub的w参数**
 specifies the dependency condition of a batch job. Only when depend_cond is satisfied (TRUE), will the job be considered for dispatch.
-似乎是设置job之间的联系。
-仅用于bsub吧。
 
-snakemake根据snakefile的rule和sample拆分job，每一个job生成一个jobscript,放在临时目录中。比如`01snaketest/.snakemake/tmp.o81t2076/snakejob.fastqc_clean.1.sh`。每一个jobscript通过qsub提交，生成qsub命令时候，读取cluster引号内容，jobscirpt作为最后一个参数。
+似乎是设置job之间的联系。仅用于bsub。
+
+snakemake根据snakefile的rule和sample拆分job，每一个job生成一个jobscript,放在临时目录中。比如`01snaketest/.snakemake/tmp.o81t2076/snakejob.fastqc_clean.1.sh`。
+
+每一个jobscript通过qsub提交，生成qsub命令时候，读取cluster引号内容，jobscirpt作为最后一个参数。
+
 `bsub -n 1 -W 00:15 -u liyubing@frasergen.com -q res -J trimming-17 -o bsub_log/trimming-17.out -e bsub_log/trimming-17.err -M 16384 -R rusage[mem=16384] /local_data1/work/liyubing/projects/01snaketest/.snakemake/tmp.5qjmx_9i/snakejob.trimming.17.sh | tail -1 | cut -f 2 -d \< | cut -f 1 -d \>`
 
 这是一个jobscript`snakejob.trimming.17.sh`的内容。
+
 其中cluster的配置由cluster.json设置，`--cluster-config cluster.json`读入。
+
 ```bash
 #!/bin/sh
 # properties = {"type": "single", "rule": "trimming", "local": false, "input": ["rawData/reads/WR180002S_R1.fastq.gz", "rawData/reads/WR180002S_R2.fastq.gz"], "output": ["outData/trimmed/WR180002S_clean_R1.fq.gz", "outData/trimmed/WR180002S_clean_R2.fq.gz", "outData/trimmed/unpaired_WR180002S_R1.fq.gz", "outData/trimmed/unpaired_WR180002S_R2.fq.gz"], "wildcards": {"sample": "WR180002S"}, "params": {"trimmomatic": "/local_data1/software/Trimmomatic/Trimmomatic-0.38/trimmomatic-0.38.jar"}, "log": [], "threads": 10, "resources": {}, "jobid": 17, "cluster": {"time": "00:15", "cpu": 1, "email": "liyubing@frasergen.com", "EmailNotice": "N", "MaxMem": 16384, "queue": "res"}}
@@ -111,7 +122,9 @@ cd /local_data1/work/liyubing/projects/01snaketest && \
 --mode 2  && touch "/local_data1/work/liyubing/projects/01snaketest/.snakemake/tmp.t8ndnw4x/17.jobfinished" || (touch "/local_data1/work/liyubing/projects/01snaketest/.snakemake/tmp.t8ndnw4x/17.jobfailed"; exit 1)
 ```
 
-简单的wrapper函数
+**简单的wrapper函数**
+
+`read_job_properties`是snakemake自带函数，可以读取jobscript中的properties，得到一个字典。
 
 ```python
 #!/usr/bin/env python3
@@ -131,4 +144,3 @@ job_properties["cluster"]["time"]
 
 print("qsub -t {threads} {script}".format(threads=threads, script=jobscript))	
 ```
-`read_job_properties`是snakemake自带函数，可以读取jobscript中的properties，得到一个字典。
