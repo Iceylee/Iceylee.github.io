@@ -8,9 +8,52 @@ catalog: true
 tags:				
     - snakemake
 ---
+## 使用文档
+
+requirements：
+* snakemake
+* python3
+
+在python3环境中，安装snakemake。
+
+```bash
+conda create -n py35 python=3.5
+source activate py35
+conda install -c bioconda -c conda-forge snakemake
+```
+
+准备文件：cluster.json, samples.json, config.yaml
+samples.json用samples2json.py脚本生成。
+
+
+```bash
+snakemake --snakefile res-snake.py -j 8 --cluster-config cluster.json --cluster './qsub.py' --latency-wait 50
+```
+-R 用于从某处开始重跑，与之相关的都会跑
+-f 用于强制只跑某一个rule。如果不用分sample，可指定rule name。如果分sample，指定目标文件（即rule的output）
+-np 打印shell 不跑
+
+
+
+默认流程：snp，indel 变异检测结束。
+
+可选分析 config中additional_analysis：
+1. anno ： snp,indel注释，然后若也分析了sv或cnv，也增加相应注释
+2. sv_software
+3. cnv_software
+
+跑完后，看结果。如果想用其他软件重跑sv或cnv，在config中修改。之后运行
+
+```bash
+snakemake -n -R `snakemake --list-params-changes
+```
+
+
+
 ## 官方文档
 **snakemake 原理**
-![](http://pxlp1m31j.bkt.clouddn.com/mweb/15685961780014.jpg)
+![](media/15705166756910.jpg)
+
 
 **建议的框架**
 ```
@@ -62,10 +105,14 @@ Would delete /02snakeReq/00.prepare/ref/salmonella.fa
 ## 重跑一个样本，只要指定target file
 ./pyflow-ATACseq -R 04aln/m280.sorted.bam
 
-##只重跑align rule
+##只重跑align rule。
 ./pyflow-ATACseq -f align
 
 ```
+-f
+强制跑：依赖的前面没有重跑的文件亦可以跳过，只要旧文件存在就可以跑。
+有wildcards的rule不能-f来跑。因为没有跑rule all，无法推断sample。
+但可以指定输出文件来跑-f、
 
 **查看结果**
 ```bash
@@ -149,3 +196,21 @@ job_properties["cluster"]["time"]
 
 print("qsub -t {threads} {script}".format(threads=threads, script=jobscript))	
 ```
+
+## 其他注意
+bash命令 tab需要反义;大括号需要再加一层大括号
+`awk 'BEGIN{{FS=OFS="\\t"}}{{i++;print i"\\t"$0}}'`
+
+Outputs of incorrect type (directories when expecting files or vice versa). Output directories must be flagged with directory().
+`ref_split = directory(join(outdir0, "ref/ref_split"))`
+
+当output是一个文件夹？关于snakemake自动建文件夹
+好像不行。output只能是文件 才会建文件夹
+
+>Unable to set utime on symlink /local_data1/work/liyubing/projects/02snakeReq/00.prepare/ref/salmonella.fa. Your Python build does not support it.
+
+设置output文件来让snakemake了解分析顺序。
+output文件必须是文件而不是文件夹。
+后rule的input，必须承接前rule的output。目前不知道是否也要写在rule all中
+snp_filter的output，和 snp_indel_anno来衔接
+annovar_db的output，he snp_indel_anno来衔接

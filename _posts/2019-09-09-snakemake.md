@@ -50,17 +50,20 @@ tags:								#标签
 
 #### 理解
 在rule all的输出文件的时候，定义了我需要的文件名。比如ALL_FASTQ已经将详细的文件名指出。
-![](http://pxlp1m31j.bkt.clouddn.com/mweb/15681067701867.jpg)
+![](media/15705161590416.jpg)
+
 
 
 在rule merge_fastqs里，output处会和ALL_FASTQ的文件名进行对应，
-![](http://pxlp1m31j.bkt.clouddn.com/mweb/15681067848230.jpg)
+![](media/15705161672404.jpg)
+
 
 从而对应{sample}。每一个sample都会进行一个rule程序。
 
 为啥在input处不能直接用{sample}
 
-![](http://pxlp1m31j.bkt.clouddn.com/mweb/15681068032715.jpg)
+![](media/15705162005890.jpg)
+
 ```
 rule bwa_map:
     input:
@@ -114,7 +117,8 @@ temp: 通过temp方法可以在所有rule运行完后删除指定的中间文件
 protected: 用来指定某些中间文件是需要保留的，eg.output: protected(“f1.bam”)。
 
 expand : 相当于列表推导式
-![](http://pxlp1m31j.bkt.clouddn.com/mweb/15681081478366.jpg)
+![](media/15705162111005.jpg)
+
 
 
 
@@ -127,7 +131,8 @@ shell中不能直接使用{sample}，而要用{wildcards.sample}来获取sample�
 
 需要分sample跑的rule，就一定要用到{sample}。
 
-![](http://pxlp1m31j.bkt.clouddn.com/mweb/15681082995140.jpg)
+![](media/15705162320664.jpg)
+
 output定义了sample。比如指向“A”
 然后从FILES中的样本“A”找到对应路径
 这针对样本不在工作目录下
@@ -151,10 +156,12 @@ sample就是python脚本里的一个普通变量，在引号中需要{}来获取
 
 ### 报错
 1. 检查rule的output和rule all的input是否一一对应
-![](http://pxlp1m31j.bkt.clouddn.com/mweb/15681081784800.jpg)
+![](media/15705162464043.jpg)
+
 
 2. shell中{sample}要写成{wildcards.sample}
-![](http://pxlp1m31j.bkt.clouddn.com/mweb/15681082551804.jpg)
+![](media/15705162533347.jpg)
+
 
 
 
@@ -196,11 +203,13 @@ FILES是一个字典
   'R2': ' /local_data1/project/B_Q20L50_2.fastq.gz'}}
 ```
 
-![](http://pxlp1m31j.bkt.clouddn.com/mweb/15681075532745.jpg)
+![](media/15705162714498.jpg)
+
 
 ALL_SAMPLES得到列表 ['A','B']
 ALL_FASTQ的expand为snakemake中的用法。这里相当于得到
-![](http://pxlp1m31j.bkt.clouddn.com/mweb/15681075628511.jpg)
+![](media/15705162779159.jpg)
+
 
 #### shell脚本和python结合
 ```python
